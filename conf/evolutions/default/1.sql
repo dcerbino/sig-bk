@@ -29,6 +29,7 @@ create table container (
 
 create table fine (
   id                            bigint auto_increment not null,
+  shipment_id                   bigint not null,
   reason                        varchar(255) not null,
   ammount                       double not null,
   currency                      varchar(255) not null,
@@ -68,11 +69,9 @@ create table shipment (
   enter_time                    datetime(6) not null,
   leave_time                    datetime(6) not null,
   order_id                      bigint not null,
-  fine_id                       bigint not null,
   constraint uq_shipment_container_id unique (container_id),
   constraint uq_shipment_trunk_id unique (trunk_id),
   constraint uq_shipment_order_id unique (order_id),
-  constraint uq_shipment_fine_id unique (fine_id),
   constraint pk_shipment primary key (id)
 );
 
@@ -108,6 +107,9 @@ alter table bill_of_loading add constraint fk_bill_of_loading_company_id foreign
 alter table container add constraint fk_container_product_id foreign key (product_id) references product (id) on delete restrict on update restrict;
 create index ix_container_product_id on container (product_id);
 
+alter table fine add constraint fk_fine_shipment_id foreign key (shipment_id) references shipment (id) on delete restrict on update restrict;
+create index ix_fine_shipment_id on fine (shipment_id);
+
 alter table torder add constraint fk_torder_company_id foreign key (company_id) references company (id) on delete restrict on update restrict;
 
 alter table torder add constraint fk_torder_bill_of_loading_id foreign key (bill_of_loading_id) references bill_of_loading (id) on delete restrict on update restrict;
@@ -123,8 +125,6 @@ alter table shipment add constraint fk_shipment_container_id foreign key (contai
 alter table shipment add constraint fk_shipment_trunk_id foreign key (trunk_id) references truck (id) on delete restrict on update restrict;
 
 alter table shipment add constraint fk_shipment_order_id foreign key (order_id) references torder (id) on delete restrict on update restrict;
-
-alter table shipment add constraint fk_shipment_fine_id foreign key (fine_id) references fine (id) on delete restrict on update restrict;
 
 alter table shipment_report add constraint fk_shipment_report_navy_company_id foreign key (navy_company_id) references company (id) on delete restrict on update restrict;
 
@@ -142,6 +142,9 @@ alter table bill_of_loading drop foreign key fk_bill_of_loading_company_id;
 alter table container drop foreign key fk_container_product_id;
 drop index ix_container_product_id on container;
 
+alter table fine drop foreign key fk_fine_shipment_id;
+drop index ix_fine_shipment_id on fine;
+
 alter table torder drop foreign key fk_torder_company_id;
 
 alter table torder drop foreign key fk_torder_bill_of_loading_id;
@@ -157,8 +160,6 @@ alter table shipment drop foreign key fk_shipment_container_id;
 alter table shipment drop foreign key fk_shipment_trunk_id;
 
 alter table shipment drop foreign key fk_shipment_order_id;
-
-alter table shipment drop foreign key fk_shipment_fine_id;
 
 alter table shipment_report drop foreign key fk_shipment_report_navy_company_id;
 
