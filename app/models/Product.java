@@ -1,17 +1,19 @@
 package models;
 
 import io.ebean.Model;
+import io.ebean.annotation.NotNull;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.validation.constraints.NotNull;
+import javax.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Product extends Model {
     @Id
-    private int id;
+    private int id=0;
 
     @NotNull
     private String name;
@@ -21,6 +23,17 @@ public class Product extends Model {
 
     @ManyToOne
     private ProductType type;
+
+    @OneToMany
+    private List<Container> containers = new ArrayList<>();
+
+    public List<Container> getContainers() {
+        return containers;
+    }
+
+    public void setContainers(List<Container> containers) {
+        this.containers = containers;
+    }
 
     public Product(int id, String name, double weight, ProductType type) {
         this.id = id;
