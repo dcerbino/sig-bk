@@ -49,7 +49,6 @@ create table product (
   id                            bigint auto_increment not null,
   order_id                      bigint not null,
   name                          varchar(255) not null,
-  weight                        double not null,
   type_id                       bigint,
   constraint pk_product primary key (id)
 );
@@ -85,6 +84,7 @@ create table shipment_report (
   navy_company_id               bigint,
   provider_id                   bigint,
   loading_point                 varchar(255) not null,
+  docking_point                 varchar(255) not null,
   boat                          varchar(255) not null,
   delivery_place                varchar(255) not null,
   constraint uq_shipment_report_navy_company_id unique (navy_company_id),

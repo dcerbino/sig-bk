@@ -1,5 +1,6 @@
 package models;
 
+import io.ebean.Finder;
 import io.ebean.annotation.NotNull;
 
 import javax.persistence.Entity;
@@ -9,6 +10,8 @@ import java.util.List;
 
 @Entity
 public class ProductType extends BaseModel {
+    public static final Finder<Long, ProductType> find = new Finder<>(ProductType.class);
+
     @NotNull
     public String material = "";
 

@@ -1,5 +1,6 @@
 package models;
 
+import io.ebean.Finder;
 import play.data.format.Formats;
 
 import javax.persistence.*;
@@ -11,13 +12,15 @@ import java.util.List;
 @Entity
 @Table(name = "torder")
 public class Order extends BaseModel {
+    public static final Finder<Long, Order> find = new Finder<>(Order.class);
+
 
     @OneToMany(cascade = CascadeType.ALL)
     public List<Product> products = new ArrayList<>();
 
     @NotNull
     @Formats.DateTime(pattern = "yyyy-MM-dd")
-    public Date date;
+    public Date date = new Date();
 
     @NotNull
     @OneToOne

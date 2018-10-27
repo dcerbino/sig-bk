@@ -1,5 +1,6 @@
 package models;
 
+import io.ebean.Finder;
 import play.data.format.Formats;
 
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import java.util.Date;
 
 @Entity
 public class Shipment extends BaseModel {
+    public static final Finder<Long, Shipment> find = new Finder<>(Shipment.class);
 
 
     @NotNull

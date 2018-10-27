@@ -1,5 +1,6 @@
 package models;
 
+import io.ebean.Finder;
 import play.data.format.Formats;
 
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import java.util.Date;
 
 @Entity
 public class ShipmentReport extends BaseModel {
+    public static final Finder<Long, ShipmentReport> find = new Finder<>(ShipmentReport.class);
 
     @NotNull
     @Formats.DateTime(pattern = "yyyy-MM-dd")
@@ -30,11 +32,14 @@ public class ShipmentReport extends BaseModel {
     public String loadingPoint = "";
 
     @NotNull
+    public String dockingPoint = "";
+
+    @NotNull
     public String boat = "";
 
 
     @NotNull
-    public String deliveryPlace;
+    public String deliveryPlace="";
 
 
 }
