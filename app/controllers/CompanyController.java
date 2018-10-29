@@ -25,7 +25,7 @@ public class CompanyController extends Controller {
             Company company = Json.fromJson(request().body().asJson(), Company.class);
             if (company.notSaved(company.id)) {
                 company.save();
-                return created().withHeaders("Location", request().uri() + company.id);
+                return created().withHeaders("Location", request().uri() + "/" +company.id);
             } else if (company.isIdValid(company.id)) {
                 if (company.find.byId(company.id) != null) {
                     return badRequest(JsonMessage.make("Object already exist"));

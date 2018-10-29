@@ -25,7 +25,7 @@ public class TruckController extends Controller {
             Truck Truck = Json.fromJson(request().body().asJson(), Truck.class);
             if (Truck.notSaved(Truck.id)) {
                 Truck.save();
-                return created().withHeaders("Location", request().uri() + Truck.id);
+                return created().withHeaders("Location", request().uri() + "/" + Truck.id);
             } else if (Truck.isIdValid(Truck.id)) {
                 if (Truck.find.byId(Truck.id) != null) {
                     return badRequest(JsonMessage.make("Object already exist"));

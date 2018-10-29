@@ -25,7 +25,7 @@ public class OrderController extends Controller {
             Order Order = Json.fromJson(request().body().asJson(), Order.class);
             if (Order.notSaved(Order.id)) {
                 Order.save();
-                return created().withHeaders("Location", request().uri() + Order.id);
+                return created().withHeaders("Location", request().uri() + "/" + Order.id);
             } else if (Order.isIdValid(Order.id)) {
                 if (Order.find.byId(Order.id) != null) {
                     return badRequest(JsonMessage.make("Object already exist"));

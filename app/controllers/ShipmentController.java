@@ -25,7 +25,7 @@ public class ShipmentController extends Controller {
             Shipment Shipment = Json.fromJson(request().body().asJson(), Shipment.class);
             if (Shipment.notSaved(Shipment.id)) {
                 Shipment.save();
-                return created().withHeaders("Location", request().uri() + Shipment.id);
+                return created().withHeaders("Location", request().uri() + "/" + Shipment.id);
             } else if (Shipment.isIdValid(Shipment.id)) {
                 if (Shipment.find.byId(Shipment.id) != null) {
                     return badRequest(JsonMessage.make("Object already exist"));

@@ -25,7 +25,7 @@ public class ContainerController extends Controller {
             Container Container = Json.fromJson(request().body().asJson(), Container.class);
             if (Container.notSaved(Container.id)) {
                 Container.save();
-                return created().withHeaders("Location", request().uri() + Container.id);
+                return created().withHeaders("Location", request().uri() + "/" + Container.id);
             } else if (Container.isIdValid(Container.id)) {
                 if (Container.find.byId(Container.id) != null) {
                     return badRequest(JsonMessage.make("Object already exist"));

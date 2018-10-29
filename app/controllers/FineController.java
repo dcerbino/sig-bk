@@ -25,7 +25,7 @@ public class FineController extends Controller {
             Fine Fine = Json.fromJson(request().body().asJson(), Fine.class);
             if (Fine.notSaved(Fine.id)) {
                 Fine.save();
-                return created().withHeaders("Location", request().uri() + Fine.id);
+                return created().withHeaders("Location", request().uri() + "/" + Fine.id);
             } else if (Fine.isIdValid(Fine.id)) {
                 if (Fine.find.byId(Fine.id) != null) {
                     return badRequest(JsonMessage.make("Object already exist"));
