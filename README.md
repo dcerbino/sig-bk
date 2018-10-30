@@ -1,39 +1,40 @@
 # sig
 Trabajo para la materia Sistemas de Informacion general
 
-Istruction to setup MYSQl db engine
+### Instructions to setup MYSQl DB engine
 
-1) login to your db engine:
+##### 1) Login to your db engine:
 
-mysql -u root -p
+`mysql -u root -p`
 
 Then digit your root password
 
 You will enter to mysql terminal environment
 
-2) crete dig db:
+##### 2) Create a sig database inside the mysql shell:
 
-CREATE DATABASE sig;
+`CREATE DATABASE sig;`
 
-3) create user sig and grant db access
+##### 3) Create an user sig and grant db access to it
 
-GRANT ALL ON sig.* TO 'sig'@'localhost' IDENTIFIED BY 'sig';
+`GRANT ALL ON sig.* TO 'sig'@'localhost' IDENTIFIED BY 'sig';`
 
-4) flush privilage.
+##### 4) Flush privilage.
 
-FLUSH PRIVILEGES;
+`FLUSH PRIVILEGES;`
 
-5) exit mysql enviroment 
+##### 5) Exit the mysql environment 
 
-exit
+`exit`
 
-6) verify you can login to the db engine with new credential:
+##### 6) Verify you can login to the db engine with the new credentials:
 
+```bash
 mysql -u sig -p sig
 SELECT DATABASE();
+```
 
-the system shoud output this:
-
+The system should show the following output:
 
 ```
 +------------+
@@ -43,3 +44,8 @@ the system shoud output this:
 +------------+
 ```
 
+## Check if API is working
+
+`sbt run`
+
+Go to a browser and access `http://localhost:9000`

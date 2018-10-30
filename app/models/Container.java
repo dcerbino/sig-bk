@@ -15,6 +15,6 @@ public class Container extends BaseModel {
     public Product product;
 
     @NotNull
-    public int footSize=0;
+    public int footSize = 0;
 
 }

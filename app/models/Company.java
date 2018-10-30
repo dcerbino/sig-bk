@@ -11,10 +11,10 @@ public class Company extends BaseModel {
     public static final Finder<Long, Company> find = new Finder<>(Company.class);
 
     @NotNull
-    public String name="";
+    public String name = "";
 
     @NotNull
-    public String address="";
+    public String address = "";
 
 
 }

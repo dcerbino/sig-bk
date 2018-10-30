@@ -15,7 +15,7 @@ public class Product extends BaseModel {
 
 
     @NotNull
-    public String name="";
+    public String name = "";
 
     @ManyToOne
     public ProductType type;

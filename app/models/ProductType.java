@@ -16,7 +16,7 @@ public class ProductType extends BaseModel {
     public String material = "";
 
     @NotNull
-    public String Color = "";
+    public String color = "";
 
     @NotNull
     public String name = "";

@@ -39,7 +39,7 @@ public class ShipmentReport extends BaseModel {
 
 
     @NotNull
-    public String deliveryPlace="";
+    public String deliveryPlace = "";
 
 
 }

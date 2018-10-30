@@ -10,11 +10,11 @@ public class Fine extends BaseModel {
     public static final Finder<Long, Fine> find = new Finder<>(Fine.class);
 
     @NotNull
-    public String reason="";
+    public String reason = "";
 
     @NotNull
-    public Double ammount=0D;
+    public Double amount = 0D;
 
     @NotNull
-    public String currency="";
+    public String currency = "";
 }

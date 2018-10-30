@@ -23,7 +23,7 @@ public class Shipment extends BaseModel {
 
     @NotNull
     @OneToOne
-    public Truck trunk;
+    public Truck truck;
 
     @NotNull
     @Formats.DateTime(pattern = "yyyy-MM-dd")
@@ -32,7 +32,6 @@ public class Shipment extends BaseModel {
     @NotNull
     @Formats.DateTime(pattern = "yyyy-MM-dd")
     public Date leaveTime = new Date();
-    ;
 
     @NotNull
     @OneToOne
