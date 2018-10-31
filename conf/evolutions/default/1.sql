@@ -31,7 +31,7 @@ create table fine (
   id                            bigint auto_increment not null,
   shipment_id                   bigint not null,
   reason                        varchar(255) not null,
-  ammount                       double not null,
+  amount                        double not null,
   currency                      varchar(255) not null,
   constraint pk_fine primary key (id)
 );
@@ -65,12 +65,12 @@ create table product_type (
 create table shipment (
   id                            bigint auto_increment not null,
   container_id                  bigint not null,
-  trunk_id                      bigint not null,
+  truck_id                      bigint not null,
   enter_time                    datetime(6) not null,
   leave_time                    datetime(6) not null,
   order_id                      bigint not null,
   constraint uq_shipment_container_id unique (container_id),
-  constraint uq_shipment_trunk_id unique (trunk_id),
+  constraint uq_shipment_truck_id unique (truck_id),
   constraint uq_shipment_order_id unique (order_id),
   constraint pk_shipment primary key (id)
 );
@@ -122,7 +122,7 @@ create index ix_product_type_id on product (type_id);
 
 alter table shipment add constraint fk_shipment_container_id foreign key (container_id) references container (id) on delete restrict on update restrict;
 
-alter table shipment add constraint fk_shipment_trunk_id foreign key (trunk_id) references truck (id) on delete restrict on update restrict;
+alter table shipment add constraint fk_shipment_truck_id foreign key (truck_id) references truck (id) on delete restrict on update restrict;
 
 alter table shipment add constraint fk_shipment_order_id foreign key (order_id) references torder (id) on delete restrict on update restrict;
 
@@ -157,7 +157,7 @@ drop index ix_product_type_id on product;
 
 alter table shipment drop foreign key fk_shipment_container_id;
 
-alter table shipment drop foreign key fk_shipment_trunk_id;
+alter table shipment drop foreign key fk_shipment_truck_id;
 
 alter table shipment drop foreign key fk_shipment_order_id;
 
