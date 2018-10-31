@@ -15,7 +15,7 @@ public class Order extends BaseModel {
     public static final Finder<Long, Order> find = new Finder<>(Order.class);
 
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToOne
     public List<Product> products = new ArrayList<>();
 
     @NotNull

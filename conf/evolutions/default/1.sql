@@ -48,7 +48,6 @@ create table torder (
 
 create table product (
   id                            bigint auto_increment not null,
-  order_id                      bigint not null,
   name                          varchar(255) not null,
   type_id                       bigint,
   constraint pk_product primary key (id)
@@ -114,9 +113,6 @@ alter table torder add constraint fk_torder_company_id foreign key (company_id) 
 
 alter table torder add constraint fk_torder_bill_of_loading_id foreign key (bill_of_loading_id) references bill_of_loading (id) on delete restrict on update restrict;
 
-alter table product add constraint fk_product_order_id foreign key (order_id) references torder (id) on delete restrict on update restrict;
-create index ix_product_order_id on product (order_id);
-
 alter table product add constraint fk_product_type_id foreign key (type_id) references product_type (id) on delete restrict on update restrict;
 create index ix_product_type_id on product (type_id);
 
@@ -148,9 +144,6 @@ drop index ix_fine_shipment_id on fine;
 alter table torder drop foreign key fk_torder_company_id;
 
 alter table torder drop foreign key fk_torder_bill_of_loading_id;
-
-alter table product drop foreign key fk_product_order_id;
-drop index ix_product_order_id on product;
 
 alter table product drop foreign key fk_product_type_id;
 drop index ix_product_type_id on product;
