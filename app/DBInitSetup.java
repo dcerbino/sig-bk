@@ -1,4 +1,5 @@
 import models.Company;
+import models.ProductType;
 
 public class DBInitSetup {
     public DBInitSetup() {
@@ -8,7 +9,13 @@ public class DBInitSetup {
             company.address="Calle alsina 123";
             company.save();
         }
-
+        if (ProductType.find.all().isEmpty()){
+            ProductType pt = new ProductType();
+            pt.material="Madera";
+            pt.name="Ebano";
+            pt.color="maron";
+            pt.save();
+        }
     }
 
 }

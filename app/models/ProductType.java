@@ -21,6 +21,6 @@ public class ProductType extends BaseModel {
     @NotNull
     public String name = "";
 
-    @OneToMany
-    public List<Product> products = new ArrayList<>();
+//    @OneToMany
+//    public List<Product> products = new ArrayList<>();
 }
