@@ -16,8 +16,10 @@ You will enter to mysql terminal environment
 `CREATE DATABASE sig;`
 
 ##### 3) Create an user sig and grant db access to it
-
-`GRANT ALL ON sig.* TO 'sig'@'localhost' IDENTIFIED BY 'sig';`
+```
+CREATE USER 'sig'@'localhost' IDENTIFIED BY 'sig';
+GRANT ALL ON sig.* TO 'sig'@'localhost';
+```
 
 ##### 4) Flush privilage.
 
