@@ -1,5 +1,6 @@
 package controllers;
 
+import io.ebean.Ebean;
 import models.Product;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -22,15 +23,15 @@ public class ProductController extends Controller {
 
     public Result putProduct() {
         try {
-            Product Product = Json.fromJson(request().body().asJson(), Product.class);
-            if (Product.notSaved(Product.id)) {
-                Product.save();
-                return created().withHeaders("Location", request().uri() + "/" + Product.id);
-            } else if (Product.isIdValid(Product.id)) {
-                if (Product.find.byId(Product.id) != null) {
+            Product product = Json.fromJson(request().body().asJson(), Product.class);
+            if (product.notSaved(product.id)) {
+                product.save();
+                return created().withHeaders("Location", request().uri() + "/" + product.id);
+            } else if (product.isIdValid(product.id)) {
+                if (product.find.byId(product.id) != null) {
                     return badRequest(JsonMessage.make("Object already exist"));
                 } else {
-                    Product.save();
+                    product.save();
                     return created();
                 }
             }

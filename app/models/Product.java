@@ -3,6 +3,7 @@ package models;
 import io.ebean.Finder;
 import io.ebean.annotation.NotNull;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -18,7 +19,7 @@ public class Product extends BaseModel {
     public String name = "";
 
     @ManyToOne
-    public ProductType type;
+    public ProductType productType;
 
     @OneToMany
     public List<Container> containers = new ArrayList<>();
