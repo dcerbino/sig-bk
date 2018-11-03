@@ -2,6 +2,7 @@ package models;
 
 import io.ebean.Finder;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
@@ -11,8 +12,7 @@ public class Truck extends BaseModel {
     public static final Finder<Long, Truck> find = new Finder<>(Truck.class);
 
 
-    @NotNull
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     public Container container;
 
     @NotNull

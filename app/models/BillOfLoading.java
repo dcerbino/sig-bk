@@ -3,6 +3,7 @@ package models;
 import io.ebean.Finder;
 import play.data.format.Formats;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
@@ -14,7 +15,7 @@ public class BillOfLoading extends BaseModel {
     public static final Finder<Long, BillOfLoading> find = new Finder<>(BillOfLoading.class);
 
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     public Container container;
 
     @NotNull
@@ -22,7 +23,7 @@ public class BillOfLoading extends BaseModel {
     public Date date = new Date();
 
     @NotNull
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     public Company company;
 
 }

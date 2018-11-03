@@ -3,6 +3,7 @@ package models;
 import io.ebean.Finder;
 import play.data.format.Formats;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
@@ -22,10 +23,10 @@ public class ShipmentReport extends BaseModel {
     @NotNull
     public String port = "";
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     public Company navyCompany;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     public Company provider;
 
     @NotNull

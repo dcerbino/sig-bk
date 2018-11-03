@@ -3,6 +3,7 @@ package models;
 import io.ebean.Finder;
 import io.ebean.annotation.NotNull;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
@@ -11,7 +12,7 @@ public class Container extends BaseModel {
     public static final Finder<Long, Container> find = new Finder<>(Container.class);
 
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     public Product product;
 
     @NotNull

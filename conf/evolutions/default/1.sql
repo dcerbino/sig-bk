@@ -49,7 +49,7 @@ create table torder (
 create table product (
   id                            bigint auto_increment not null,
   name                          varchar(255) not null,
-  type_id                       bigint,
+  product_type_id               bigint,
   constraint pk_product primary key (id)
 );
 
@@ -92,7 +92,7 @@ create table shipment_report (
 
 create table truck (
   id                            bigint auto_increment not null,
-  container_id                  bigint not null,
+  container_id                  bigint,
   driver                        varchar(255) not null,
   license_plate                 varchar(255) not null,
   constraint uq_truck_container_id unique (container_id),
@@ -113,8 +113,8 @@ alter table torder add constraint fk_torder_company_id foreign key (company_id) 
 
 alter table torder add constraint fk_torder_bill_of_loading_id foreign key (bill_of_loading_id) references bill_of_loading (id) on delete restrict on update restrict;
 
-alter table product add constraint fk_product_type_id foreign key (type_id) references product_type (id) on delete restrict on update restrict;
-create index ix_product_type_id on product (type_id);
+alter table product add constraint fk_product_product_type_id foreign key (product_type_id) references product_type (id) on delete restrict on update restrict;
+create index ix_product_product_type_id on product (product_type_id);
 
 alter table shipment add constraint fk_shipment_container_id foreign key (container_id) references container (id) on delete restrict on update restrict;
 
@@ -145,8 +145,8 @@ alter table torder drop foreign key fk_torder_company_id;
 
 alter table torder drop foreign key fk_torder_bill_of_loading_id;
 
-alter table product drop foreign key fk_product_type_id;
-drop index ix_product_type_id on product;
+alter table product drop foreign key fk_product_product_type_id;
+drop index ix_product_product_type_id on product;
 
 alter table shipment drop foreign key fk_shipment_container_id;
 

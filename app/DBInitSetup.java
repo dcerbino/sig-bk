@@ -1,4 +1,5 @@
 import models.Company;
+import models.Product;
 import models.ProductType;
 
 public class DBInitSetup {
@@ -15,6 +16,13 @@ public class DBInitSetup {
             pt.name="Ebano";
             pt.color="maron";
             pt.save();
+        }
+
+        if (Product.find.all().isEmpty()){
+            Product product =new Product();
+            product.name="P1";
+            product.productType=ProductType.find.all().get(0);
+            product.save();
         }
     }
 

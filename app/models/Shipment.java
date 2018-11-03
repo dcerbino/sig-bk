@@ -18,11 +18,11 @@ public class Shipment extends BaseModel {
 
 
     @NotNull
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     public Container container;
 
     @NotNull
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     public Truck truck;
 
     @NotNull
@@ -34,7 +34,7 @@ public class Shipment extends BaseModel {
     public Date leaveTime = new Date();
 
     @NotNull
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     public Order Order;
 
     @NotNull

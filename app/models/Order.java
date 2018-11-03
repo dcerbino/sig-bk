@@ -15,7 +15,7 @@ public class Order extends BaseModel {
     public static final Finder<Long, Order> find = new Finder<>(Order.class);
 
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     public List<Product> products = new ArrayList<>();
 
     @NotNull
@@ -23,10 +23,10 @@ public class Order extends BaseModel {
     public Date date = new Date();
 
     @NotNull
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     public Company company;
 
     @NotNull
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     public BillOfLoading billOfLoading;
 }

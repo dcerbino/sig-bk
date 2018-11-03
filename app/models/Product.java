@@ -18,10 +18,11 @@ public class Product extends BaseModel {
     @NotNull
     public String name = "";
 
-    @ManyToOne
+    @NotNull
+    @ManyToOne(cascade = CascadeType.ALL)
     public ProductType productType;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     public List<Container> containers = new ArrayList<>();
 
 }
