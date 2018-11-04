@@ -22,15 +22,17 @@ public class ContainerController extends Controller {
 
     public Result putContainer() {
         try {
-            Container Container = Json.fromJson(request().body().asJson(), Container.class);
-            if (Container.notSaved(Container.id)) {
-                Container.save();
-                return created().withHeaders("Location", request().uri() + "/" + Container.id);
-            } else if (Container.isIdValid(Container.id)) {
-                if (Container.find.byId(Container.id) != null) {
+            Container container = Json.fromJson(request().body().asJson(), Container.class);
+            if (container.notSaved(container.id)) {
+                container.save();
+                return created()
+                        .sendJson(Json.toJson(container.find.byId(container.id)))
+                        .withHeaders("Location", request().uri() + "/" + container.id);
+            } else if (container.isIdValid(container.id)) {
+                if (container.find.byId(container.id) != null) {
                     return badRequest(JsonMessage.make("Object already exist"));
                 } else {
-                    Container.save();
+                    container.save();
                     return created();
                 }
             }

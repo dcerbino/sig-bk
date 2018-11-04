@@ -26,7 +26,9 @@ public class ProductController extends Controller {
             Product product = Json.fromJson(request().body().asJson(), Product.class);
             if (product.notSaved(product.id)) {
                 product.save();
-                return created().withHeaders("Location", request().uri() + "/" + product.id);
+                return created()
+                        .sendJson(Json.toJson(Product.find.byId(product.id)))
+                        .withHeaders("Location", request().uri() + "/" + product.id);
             } else if (product.isIdValid(product.id)) {
                 if (product.find.byId(product.id) != null) {
                     return badRequest(JsonMessage.make("Object already exist"));
