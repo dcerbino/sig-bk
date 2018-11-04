@@ -24,7 +24,6 @@ public class BillOfLoading extends BaseModel {
     @OneToOne(cascade = CascadeType.ALL)
     public Company company;
 
-    @NotNull
     @OneToOne
     public Order order;
 

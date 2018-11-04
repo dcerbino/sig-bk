@@ -13,14 +13,11 @@ import java.util.Date;
 public class ShipmentReport extends BaseModel {
     public static final Finder<Long, ShipmentReport> find = new Finder<>(ShipmentReport.class);
 
-    @NotNull
     @Formats.DateTime(pattern = "yyyy-MM-dd")
     public Date introduced = new Date();
 
-    @NotNull
     public String terminal = "";
 
-    @NotNull
     public String port = "";
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -29,18 +26,12 @@ public class ShipmentReport extends BaseModel {
     @OneToOne(cascade = CascadeType.ALL)
     public Company provider;
 
-    @NotNull
     public String loadingPoint = "";
 
-    @NotNull
     public String dockingPoint = "";
 
-    @NotNull
     public String boat = "";
 
-
-    @NotNull
     public String deliveryPlace = "";
-
 
 }
