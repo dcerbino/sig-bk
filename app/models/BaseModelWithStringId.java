@@ -11,7 +11,7 @@ public class BaseModelWithStringId extends Model {
     public String id = null;
 
     public static boolean notSaved(String id) {
-        return id != null;
+        return id == null;
     }
 
     public static boolean isIdValid(String id) {
