@@ -18,11 +18,9 @@ public class BillOfLoading extends BaseModel {
     @OneToOne(cascade = CascadeType.ALL)
     public Container container;
 
-    @NotNull
     @Formats.DateTime(pattern = "yyyy-MM-dd")
     public Date date = new Date();
 
-    @NotNull
     @OneToOne(cascade = CascadeType.ALL)
     public Company company;
 
