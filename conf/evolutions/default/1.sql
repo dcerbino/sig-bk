@@ -8,8 +8,10 @@ create table bill_of_loading (
   container_id                  varchar(255),
   date                          datetime(6),
   company_id                    bigint,
+  order_id                      bigint not null,
   constraint uq_bill_of_loading_container_id unique (container_id),
   constraint uq_bill_of_loading_company_id unique (company_id),
+  constraint uq_bill_of_loading_order_id unique (order_id),
   constraint pk_bill_of_loading primary key (id)
 );
 
@@ -38,11 +40,10 @@ create table fine (
 
 create table torder (
   id                            bigint auto_increment not null,
+  product_id                    bigint,
   date                          datetime(6) not null,
   company_id                    bigint not null,
-  bill_of_loading_id            bigint not null,
   constraint uq_torder_company_id unique (company_id),
-  constraint uq_torder_bill_of_loading_id unique (bill_of_loading_id),
   constraint pk_torder primary key (id)
 );
 
@@ -103,15 +104,18 @@ alter table bill_of_loading add constraint fk_bill_of_loading_container_id forei
 
 alter table bill_of_loading add constraint fk_bill_of_loading_company_id foreign key (company_id) references company (id) on delete restrict on update restrict;
 
+alter table bill_of_loading add constraint fk_bill_of_loading_order_id foreign key (order_id) references torder (id) on delete restrict on update restrict;
+
 alter table container add constraint fk_container_product_id foreign key (product_id) references product (id) on delete restrict on update restrict;
 create index ix_container_product_id on container (product_id);
 
 alter table fine add constraint fk_fine_shipment_id foreign key (shipment_id) references shipment (id) on delete restrict on update restrict;
 create index ix_fine_shipment_id on fine (shipment_id);
 
-alter table torder add constraint fk_torder_company_id foreign key (company_id) references company (id) on delete restrict on update restrict;
+alter table torder add constraint fk_torder_product_id foreign key (product_id) references product (id) on delete restrict on update restrict;
+create index ix_torder_product_id on torder (product_id);
 
-alter table torder add constraint fk_torder_bill_of_loading_id foreign key (bill_of_loading_id) references bill_of_loading (id) on delete restrict on update restrict;
+alter table torder add constraint fk_torder_company_id foreign key (company_id) references company (id) on delete restrict on update restrict;
 
 alter table product add constraint fk_product_product_type_id foreign key (product_type_id) references product_type (id) on delete restrict on update restrict;
 create index ix_product_product_type_id on product (product_type_id);
@@ -135,15 +139,18 @@ alter table bill_of_loading drop foreign key fk_bill_of_loading_container_id;
 
 alter table bill_of_loading drop foreign key fk_bill_of_loading_company_id;
 
+alter table bill_of_loading drop foreign key fk_bill_of_loading_order_id;
+
 alter table container drop foreign key fk_container_product_id;
 drop index ix_container_product_id on container;
 
 alter table fine drop foreign key fk_fine_shipment_id;
 drop index ix_fine_shipment_id on fine;
 
-alter table torder drop foreign key fk_torder_company_id;
+alter table torder drop foreign key fk_torder_product_id;
+drop index ix_torder_product_id on torder;
 
-alter table torder drop foreign key fk_torder_bill_of_loading_id;
+alter table torder drop foreign key fk_torder_company_id;
 
 alter table product drop foreign key fk_product_product_type_id;
 drop index ix_product_product_type_id on product;

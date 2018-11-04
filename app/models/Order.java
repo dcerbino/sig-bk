@@ -16,7 +16,7 @@ public class Order extends BaseModel {
 
 
     @ManyToOne(cascade = CascadeType.ALL)
-    public List<Product> products = new ArrayList<>();
+    public Product product;
 
     @NotNull
     @Formats.DateTime(pattern = "yyyy-MM-dd")
@@ -26,7 +26,7 @@ public class Order extends BaseModel {
     @OneToOne(cascade = CascadeType.ALL)
     public Company company;
 
-    @NotNull
-    @OneToOne(cascade = CascadeType.ALL)
-    public BillOfLoading billOfLoading;
+//    @NotNull
+//    @OneToOne(cascade = CascadeType.ALL)
+//    public BillOfLoading billOfLoading;
 }
