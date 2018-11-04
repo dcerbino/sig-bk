@@ -22,7 +22,7 @@ public class Product extends BaseModel {
     @ManyToOne(cascade = CascadeType.ALL)
     public ProductType productType;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    public List<Container> containers = new ArrayList<>();
+//    @OneToMany(cascade = CascadeType.ALL)
+//    public List<Container> containers = new ArrayList<>();
 
 }
