@@ -28,7 +28,7 @@ public class Shipment extends BaseModel {
     public Date leaveTime = new Date();
 
     @OneToOne(cascade = CascadeType.ALL)
-    public Order Order;
+    public Order order;
 
     @OneToMany(cascade = CascadeType.ALL)
     public List<Fine> fines = new ArrayList<>();
