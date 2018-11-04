@@ -8,12 +8,12 @@ import utils.JsonMessage;
 
 public class ContainerController extends Controller {
     public Result getAllContainer() {
-        return ok(Json.toJson(Container.find.all()));
+        return ok().sendJson(Json.toJson(Container.find.all()));
     }
 
-    public Result getContainer(long id) {
+    public Result getContainer(String id) {
         try {
-            return ok(Json.toJson(Container.find.byId(id)));
+            return ok().sendJson(Json.toJson(Container.find.byId(id)));
         } catch (Exception e) {
 //            e.printStackTrace();
             return noContent();
@@ -26,37 +26,39 @@ public class ContainerController extends Controller {
             if (container.notSaved(container.id)) {
                 container.save();
                 return created()
-                        .sendJson(Json.toJson(container.find.byId(container.id)))
+                        .sendJson(Json.toJson(container))
                         .withHeaders("Location", request().uri() + "/" + container.id);
             } else if (container.isIdValid(container.id)) {
                 if (container.find.byId(container.id) != null) {
-                    return badRequest(JsonMessage.make("Object already exist"));
+                    return badRequest().sendJson(JsonMessage.make("Object already exist"));
                 } else {
                     container.save();
-                    return created();
+                    return created()
+                            .sendJson(Json.toJson(container))
+                            .withHeaders("Location", request().uri() + "/" + container.id);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return badRequest(JsonMessage.make("error wile saving object"));
+        return badRequest().sendJson(JsonMessage.make("error wile saving object"));
     }
 
     public Result postContainer() {
         try {
-            Container Container = Json.fromJson(request().body().asJson(), Container.class);
-            Container.update();
-            return ok(JsonMessage.make("Container updated"));
+            Container container = Json.fromJson(request().body().asJson(), Container.class);
+            container.update();
+            return ok().sendJson(JsonMessage.make("Container updated"));
         } catch (Exception e) {
             e.printStackTrace();
         }
         return noContent();
     }
 
-    public Result deleteContainer(long id) {
+    public Result deleteContainer(String id) {
         try {
             Container.find.deleteById(id);
-            return ok(JsonMessage.make("Container deleted"));
+            return ok().sendJson(JsonMessage.make("Container deleted"));
         } catch (Exception e) {
             e.printStackTrace();
         }

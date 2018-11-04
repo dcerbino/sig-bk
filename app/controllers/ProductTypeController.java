@@ -8,7 +8,7 @@ import utils.JsonMessage;
 
 public class ProductTypeController extends Controller {
     public Result getAllProductType() {
-        return ok(Json.toJson(ProductType.find.all()));
+        return ok().sendJson(Json.toJson(ProductType.find.all()));
     }
 
     public Result getProductType(long id) {
@@ -22,16 +22,20 @@ public class ProductTypeController extends Controller {
 
     public Result putProductType() {
         try {
-            ProductType ProductType = Json.fromJson(request().body().asJson(), ProductType.class);
-            if (ProductType.notSaved(ProductType.id)) {
-                ProductType.save();
-                return created().withHeaders("Location", request().uri() + "/" + ProductType.id);
-            } else if (ProductType.isIdValid(ProductType.id)) {
-                if (ProductType.find.byId(ProductType.id) != null) {
+            ProductType productType = Json.fromJson(request().body().asJson(), ProductType.class);
+            if (productType.notSaved(productType.id)) {
+                productType.save();
+                return created()
+                        .sendJson(Json.toJson(productType))
+                        .withHeaders("Location", request().uri() + "/" + productType.id);
+            } else if (productType.isIdValid(productType.id)) {
+                if (productType.find.byId(productType.id) != null) {
                     return badRequest(JsonMessage.make("Object already exist"));
                 } else {
-                    ProductType.save();
-                    return created();
+                    productType.save();
+                    return created()
+                            .sendJson(Json.toJson(productType))
+                            .withHeaders("Location", request().uri() + "/" + productType.id);
                 }
             }
         } catch (Exception e) {

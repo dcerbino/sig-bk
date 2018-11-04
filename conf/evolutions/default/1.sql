@@ -5,7 +5,7 @@
 
 create table bill_of_loading (
   id                            bigint auto_increment not null,
-  container_id                  bigint,
+  container_id                  varchar(255),
   date                          datetime(6) not null,
   company_id                    bigint not null,
   constraint uq_bill_of_loading_container_id unique (container_id),
@@ -21,7 +21,7 @@ create table company (
 );
 
 create table container (
-  id                            bigint auto_increment not null,
+  id                            varchar(255) not null,
   product_id                    bigint,
   foot_size                     integer not null,
   constraint pk_container primary key (id)
@@ -37,7 +37,7 @@ create table fine (
 );
 
 create table torder (
-  id                            bigint auto_increment not null,
+  id                            varchar(255) not null,
   date                          datetime(6) not null,
   company_id                    bigint not null,
   bill_of_loading_id            bigint not null,
@@ -63,11 +63,11 @@ create table product_type (
 
 create table shipment (
   id                            bigint auto_increment not null,
-  container_id                  bigint not null,
+  container_id                  varchar(255) not null,
   truck_id                      bigint not null,
   enter_time                    datetime(6) not null,
   leave_time                    datetime(6) not null,
-  order_id                      bigint not null,
+  order_id                      varchar(255) not null,
   constraint uq_shipment_container_id unique (container_id),
   constraint uq_shipment_truck_id unique (truck_id),
   constraint uq_shipment_order_id unique (order_id),
@@ -92,7 +92,7 @@ create table shipment_report (
 
 create table truck (
   id                            bigint auto_increment not null,
-  container_id                  bigint,
+  container_id                  varchar(255),
   driver                        varchar(255) not null,
   license_plate                 varchar(255) not null,
   constraint uq_truck_container_id unique (container_id),

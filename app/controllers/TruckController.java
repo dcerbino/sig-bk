@@ -8,7 +8,7 @@ import utils.JsonMessage;
 
 public class TruckController extends Controller {
     public Result getAllTruck() {
-        return ok(Json.toJson(Truck.find.all()));
+        return ok().sendJson(Json.toJson(Truck.find.all()));
     }
 
     public Result getTruck(long id) {
@@ -22,29 +22,33 @@ public class TruckController extends Controller {
 
     public Result putTruck() {
         try {
-            Truck Truck = Json.fromJson(request().body().asJson(), Truck.class);
-            if (Truck.notSaved(Truck.id)) {
-                Truck.save();
-                return created().withHeaders("Location", request().uri() + "/" + Truck.id);
-            } else if (Truck.isIdValid(Truck.id)) {
-                if (Truck.find.byId(Truck.id) != null) {
-                    return badRequest(JsonMessage.make("Object already exist"));
+            Truck truck = Json.fromJson(request().body().asJson(), Truck.class);
+            if (truck.notSaved(truck.id)) {
+                truck.save();
+                return created()
+                        .sendJson(Json.toJson(truck))
+                        .withHeaders("Location", request().uri() + "/" + truck.id);
+            } else if (truck.isIdValid(truck.id)) {
+                if (truck.find.byId(truck.id) != null) {
+                    return badRequest().sendJson(JsonMessage.make("Object already exist"));
                 } else {
-                    Truck.save();
-                    return created();
+                    truck.save();
+                    return created()
+                            .sendJson(Json.toJson(truck))
+                            .withHeaders("Location", request().uri() + "/" + truck.id);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return badRequest(JsonMessage.make("error wile saving object"));
+        return badRequest().sendJson(JsonMessage.make("error wile saving object"));
     }
 
     public Result postTruck() {
         try {
             Truck Truck = Json.fromJson(request().body().asJson(), Truck.class);
             Truck.update();
-            return ok(JsonMessage.make("Truck updated"));
+            return ok().sendJson(JsonMessage.make("Truck updated"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -54,7 +58,7 @@ public class TruckController extends Controller {
     public Result deleteTruck(long id) {
         try {
             Truck.find.deleteById(id);
-            return ok(JsonMessage.make("Truck deleted"));
+            return ok().sendJson(JsonMessage.make("Truck deleted"));
         } catch (Exception e) {
             e.printStackTrace();
         }

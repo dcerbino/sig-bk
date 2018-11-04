@@ -8,12 +8,12 @@ import utils.JsonMessage;
 
 public class CompanyController extends Controller {
     public Result getAllCompany() {
-        return ok(Json.toJson(Company.find.all()));
+        return ok().sendJson(Json.toJson(Company.find.all()));
     }
 
     public Result getCompany(long id) {
         try {
-            return ok(Json.toJson(Company.find.byId(id)));
+            return ok().sendJson(Json.toJson(Company.find.byId(id)));
         } catch (Exception e) {
 //            e.printStackTrace();
             return noContent();
@@ -25,26 +25,30 @@ public class CompanyController extends Controller {
             Company company = Json.fromJson(request().body().asJson(), Company.class);
             if (company.notSaved(company.id)) {
                 company.save();
-                return created().withHeaders("Location", request().uri() + "/" +company.id);
+                return created()
+                        .sendJson(Json.toJson(company))
+                        .withHeaders("Location", request().uri() + "/" +company.id);
             } else if (company.isIdValid(company.id)) {
                 if (company.find.byId(company.id) != null) {
-                    return badRequest(JsonMessage.make("Object already exist"));
+                    return badRequest().sendJson(JsonMessage.make("Object already exist"));
                 } else {
                     company.save();
-                    return created();
+                    return created()
+                            .sendJson(Json.toJson(company))
+                            .withHeaders("Location", request().uri() + "/" +company.id);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return badRequest(JsonMessage.make("error wile saving object"));
+        return badRequest().sendJson(JsonMessage.make("error wile saving object"));
     }
 
     public Result postCompany() {
         try {
-            Company Company = Json.fromJson(request().body().asJson(), Company.class);
-            Company.update();
-            return ok(JsonMessage.make("Company updated"));
+            Company company = Json.fromJson(request().body().asJson(), Company.class);
+            company.update();
+            return ok().sendJson(JsonMessage.make("Company updated"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -54,7 +58,7 @@ public class CompanyController extends Controller {
     public Result deleteCompany(long id) {
         try {
             Company.find.deleteById(id);
-            return ok(JsonMessage.make("Company deleted"));
+            return ok().sendJson(JsonMessage.make("Company deleted"));
         } catch (Exception e) {
             e.printStackTrace();
         }

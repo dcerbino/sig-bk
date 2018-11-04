@@ -8,8 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Container extends BaseModel {
-    public static final Finder<Long, Container> find = new Finder<>(Container.class);
+public class Container extends BaseModelWithStringId {
+    public static final Finder<String, Container> find = new Finder<>(Container.class);
 
 
     @ManyToOne(cascade = CascadeType.ALL)

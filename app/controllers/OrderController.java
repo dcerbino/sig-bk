@@ -11,9 +11,9 @@ public class OrderController extends Controller {
         return ok(Json.toJson(Order.find.all()));
     }
 
-    public Result getOrder(long id) {
+    public Result getOrder(String id) {
         try {
-            return ok(Json.toJson(Order.find.byId(id)));
+            return ok().sendJson(Json.toJson(Order.find.byId(id)));
         } catch (Exception e) {
 //            e.printStackTrace();
             return noContent();
@@ -22,39 +22,43 @@ public class OrderController extends Controller {
 
     public Result putOrder() {
         try {
-            Order Order = Json.fromJson(request().body().asJson(), Order.class);
-            if (Order.notSaved(Order.id)) {
-                Order.save();
-                return created().withHeaders("Location", request().uri() + "/" + Order.id);
-            } else if (Order.isIdValid(Order.id)) {
-                if (Order.find.byId(Order.id) != null) {
-                    return badRequest(JsonMessage.make("Object already exist"));
+            Order order = Json.fromJson(request().body().asJson(), Order.class);
+            if (order.notSaved(order.id)) {
+                order.save();
+                return created()
+                        .sendJson(Json.toJson(order))
+                        .withHeaders("Location", request().uri() + "/" + order.id);
+            } else if (order.isIdValid(order.id)) {
+                if (order.find.byId(order.id) != null) {
+                    return badRequest().sendJson(JsonMessage.make("Object already exist"));
                 } else {
-                    Order.save();
-                    return created();
+                    order.save();
+                    return created()
+                            .sendJson(Json.toJson(order))
+                            .withHeaders("Location", request().uri() + "/" + order.id);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return badRequest(JsonMessage.make("error wile saving object"));
+        return badRequest().sendJson(JsonMessage.make("error wile saving object"));
     }
 
     public Result postOrder() {
         try {
-            Order Order = Json.fromJson(request().body().asJson(), Order.class);
-            Order.update();
-            return ok(JsonMessage.make("Order updated"));
+            Order order = Json.fromJson(request().body().asJson(), Order.class);
+            order.update();
+            return ok().sendJson(JsonMessage.make("Order updated"));
         } catch (Exception e) {
             e.printStackTrace();
         }
         return noContent();
     }
 
-    public Result deleteOrder(long id) {
+    public Result deleteOrder(String id) {
         try {
             Order.find.deleteById(id);
-            return ok(JsonMessage.make("Order deleted"));
+            return ok().sendJson(JsonMessage.make("Order deleted"));
         } catch (Exception e) {
             e.printStackTrace();
         }

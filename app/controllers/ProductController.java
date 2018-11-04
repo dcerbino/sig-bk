@@ -14,7 +14,7 @@ public class ProductController extends Controller {
 
     public Result getProduct(long id) {
         try {
-            return ok(Json.toJson(Product.find.byId(id)));
+            return ok().sendJson(Json.toJson(Product.find.byId(id)));
         } catch (Exception e) {
 //            e.printStackTrace();
             return noContent();
@@ -27,27 +27,29 @@ public class ProductController extends Controller {
             if (product.notSaved(product.id)) {
                 product.save();
                 return created()
-                        .sendJson(Json.toJson(Product.find.byId(product.id)))
+                        .sendJson(Json.toJson(product))
                         .withHeaders("Location", request().uri() + "/" + product.id);
             } else if (product.isIdValid(product.id)) {
                 if (product.find.byId(product.id) != null) {
-                    return badRequest(JsonMessage.make("Object already exist"));
+                    return badRequest().sendJson(JsonMessage.make("Object already exist"));
                 } else {
                     product.save();
-                    return created();
+                    return created()
+                            .sendJson(Json.toJson(product))
+                            .withHeaders("Location", request().uri() + "/" + product.id);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return badRequest(JsonMessage.make("error wile saving object"));
+        return badRequest().sendJson(JsonMessage.make("error wile saving object"));
     }
 
     public Result postProduct() {
         try {
             Product Product = Json.fromJson(request().body().asJson(), Product.class);
             Product.update();
-            return ok(JsonMessage.make("Product updated"));
+            return ok().sendJson(JsonMessage.make("Product updated"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,7 +59,7 @@ public class ProductController extends Controller {
     public Result deleteProduct(long id) {
         try {
             Product.find.deleteById(id);
-            return ok(JsonMessage.make("Product deleted"));
+            return ok().sendJson(JsonMessage.make("Product deleted"));
         } catch (Exception e) {
             e.printStackTrace();
         }

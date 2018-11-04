@@ -8,12 +8,12 @@ import utils.JsonMessage;
 
 public class FineController extends Controller {
     public Result getAllFine() {
-        return ok(Json.toJson(Fine.find.all()));
+        return ok().sendJson(Json.toJson(Fine.find.all()));
     }
 
     public Result getFine(long id) {
         try {
-            return ok(Json.toJson(Fine.find.byId(id)));
+            return ok().sendJson(Json.toJson(Fine.find.byId(id)));
         } catch (Exception e) {
 //            e.printStackTrace();
             return noContent();
@@ -22,29 +22,33 @@ public class FineController extends Controller {
 
     public Result putFine() {
         try {
-            Fine Fine = Json.fromJson(request().body().asJson(), Fine.class);
-            if (Fine.notSaved(Fine.id)) {
-                Fine.save();
-                return created().withHeaders("Location", request().uri() + "/" + Fine.id);
-            } else if (Fine.isIdValid(Fine.id)) {
-                if (Fine.find.byId(Fine.id) != null) {
-                    return badRequest(JsonMessage.make("Object already exist"));
+            Fine fine = Json.fromJson(request().body().asJson(), Fine.class);
+            if (fine.notSaved(fine.id)) {
+                fine.save();
+                return created()
+                        .sendJson(Json.toJson(fine))
+                        .withHeaders("Location", request().uri() + "/" + fine.id);
+            } else if (fine.isIdValid(fine.id)) {
+                if (fine.find.byId(fine.id) != null) {
+                    return badRequest().sendJson(JsonMessage.make("Object already exist"));
                 } else {
-                    Fine.save();
-                    return created();
+                    fine.save();
+                    return created()
+                            .sendJson(Json.toJson(fine))
+                            .withHeaders("Location", request().uri() + "/" + fine.id);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return badRequest(JsonMessage.make("error wile saving object"));
+        return badRequest().sendJson(JsonMessage.make("error wile saving object"));
     }
 
     public Result postFine() {
         try {
-            Fine Fine = Json.fromJson(request().body().asJson(), Fine.class);
-            Fine.update();
-            return ok(JsonMessage.make("Fine updated"));
+            Fine fine = Json.fromJson(request().body().asJson(), Fine.class);
+            fine.update();
+            return ok().sendJson(JsonMessage.make("Fine updated"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -54,7 +58,7 @@ public class FineController extends Controller {
     public Result deleteFine(long id) {
         try {
             Fine.find.deleteById(id);
-            return ok(JsonMessage.make("Fine deleted"));
+            return ok().sendJson(JsonMessage.make("Fine deleted"));
         } catch (Exception e) {
             e.printStackTrace();
         }

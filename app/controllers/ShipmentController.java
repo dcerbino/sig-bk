@@ -8,12 +8,12 @@ import utils.JsonMessage;
 
 public class ShipmentController extends Controller {
     public Result getAllShipment() {
-        return ok(Json.toJson(Shipment.find.all()));
+        return ok().sendJson(Json.toJson(Shipment.find.all()));
     }
 
     public Result getShipment(long id) {
         try {
-            return ok(Json.toJson(Shipment.find.byId(id)));
+            return ok().sendJson(Json.toJson(Shipment.find.byId(id)));
         } catch (Exception e) {
 //            e.printStackTrace();
             return noContent();
@@ -22,29 +22,33 @@ public class ShipmentController extends Controller {
 
     public Result putShipment() {
         try {
-            Shipment Shipment = Json.fromJson(request().body().asJson(), Shipment.class);
-            if (Shipment.notSaved(Shipment.id)) {
-                Shipment.save();
-                return created().withHeaders("Location", request().uri() + "/" + Shipment.id);
-            } else if (Shipment.isIdValid(Shipment.id)) {
-                if (Shipment.find.byId(Shipment.id) != null) {
-                    return badRequest(JsonMessage.make("Object already exist"));
+            Shipment shipment = Json.fromJson(request().body().asJson(), Shipment.class);
+            if (shipment.notSaved(shipment.id)) {
+                shipment.save();
+                return created()
+                        .sendJson(Json.toJson(shipment))
+                        .withHeaders("Location", request().uri() + "/" + shipment.id);
+            } else if (shipment.isIdValid(shipment.id)) {
+                if (shipment.find.byId(shipment.id) != null) {
+                    return badRequest().sendJson(JsonMessage.make("Object already exist"));
                 } else {
-                    Shipment.save();
-                    return created();
+                    shipment.save();
+                    return created()
+                            .sendJson(Json.toJson(shipment))
+                            .withHeaders("Location", request().uri() + "/" + shipment.id);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return badRequest(JsonMessage.make("error wile saving object"));
+        return badRequest().sendJson(JsonMessage.make("error wile saving object"));
     }
 
     public Result postShipment() {
         try {
             Shipment Shipment = Json.fromJson(request().body().asJson(), Shipment.class);
             Shipment.update();
-            return ok(JsonMessage.make("Shipment updated"));
+            return ok().sendJson(JsonMessage.make("Shipment updated"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -54,7 +58,7 @@ public class ShipmentController extends Controller {
     public Result deleteShipment(long id) {
         try {
             Shipment.find.deleteById(id);
-            return ok(JsonMessage.make("Shipment deleted"));
+            return ok().sendJson(JsonMessage.make("Shipment deleted"));
         } catch (Exception e) {
             e.printStackTrace();
         }
