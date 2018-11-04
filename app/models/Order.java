@@ -11,8 +11,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "torder")
-public class Order extends BaseModelWithStringId {
-    public static final Finder<String, Order> find = new Finder<>(Order.class);
+public class Order extends BaseModel {
+    public static final Finder<Long, Order> find = new Finder<>(Order.class);
 
 
     @ManyToOne(cascade = CascadeType.ALL)

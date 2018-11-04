@@ -30,10 +30,10 @@ PUT           /api/Fine                      controllers.FineController.putFine(
 DELETE        /api/Fine/:id                  controllers.FineController.deleteFine(id:Long)
 
 GET           /api/Order                     controllers.OrderController.getAllOrder()
-GET           /api/Order/:id                 controllers.OrderController.getOrder(id: String)
+GET           /api/Order/:id                 controllers.OrderController.getOrder(id: Long)
 POST          /api/Order                     controllers.OrderController.postOrder()
 PUT           /api/Order                     controllers.OrderController.putOrder()
-DELETE        /api/Order/:id                 controllers.OrderController.deleteOrder(id:String)
+DELETE        /api/Order/:id                 controllers.OrderController.deleteOrder(id:Long)
 
 GET           /api/Product                   controllers.ProductController.getAllProduct()
 GET           /api/Product/:id               controllers.ProductController.getProduct(id: Long)

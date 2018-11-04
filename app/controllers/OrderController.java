@@ -11,7 +11,7 @@ public class OrderController extends Controller {
         return ok(Json.toJson(Order.find.all()));
     }
 
-    public Result getOrder(String id) {
+    public Result getOrder(Long id) {
         try {
             return ok().sendJson(Json.toJson(Order.find.byId(id)));
         } catch (Exception e) {
@@ -55,7 +55,7 @@ public class OrderController extends Controller {
         return noContent();
     }
 
-    public Result deleteOrder(String id) {
+    public Result deleteOrder(Long id) {
         try {
             Order.find.deleteById(id);
             return ok().sendJson(JsonMessage.make("Order deleted"));

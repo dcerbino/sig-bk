@@ -6,8 +6,8 @@
 create table bill_of_loading (
   id                            bigint auto_increment not null,
   container_id                  varchar(255),
-  date                          datetime(6) not null,
-  company_id                    bigint not null,
+  date                          datetime(6),
+  company_id                    bigint,
   constraint uq_bill_of_loading_container_id unique (container_id),
   constraint uq_bill_of_loading_company_id unique (company_id),
   constraint pk_bill_of_loading primary key (id)
@@ -37,7 +37,7 @@ create table fine (
 );
 
 create table torder (
-  id                            varchar(255) not null,
+  id                            bigint auto_increment not null,
   date                          datetime(6) not null,
   company_id                    bigint not null,
   bill_of_loading_id            bigint not null,
@@ -67,7 +67,7 @@ create table shipment (
   truck_id                      bigint not null,
   enter_time                    datetime(6) not null,
   leave_time                    datetime(6) not null,
-  order_id                      varchar(255) not null,
+  order_id                      bigint not null,
   constraint uq_shipment_container_id unique (container_id),
   constraint uq_shipment_truck_id unique (truck_id),
   constraint uq_shipment_order_id unique (order_id),
