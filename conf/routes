@@ -21,7 +21,7 @@ GET           /api/Container                 controllers.ContainerController.get
 GET           /api/Container/:id             controllers.ContainerController.getContainer(id: String)
 POST          /api/Container                 controllers.ContainerController.postContainer()
 PUT           /api/Container                 controllers.ContainerController.putContainer()
-DELETE        /Api/Container/:id             controllers.ContainerController.deleteContainer(id:String)
+DELETE        /api/Container/:id             controllers.ContainerController.deleteContainer(id:String)
 
 GET           /api/Fine                      controllers.FineController.getAllFine()
 GET           /api/Fine/:id                  controllers.FineController.getFine(id: Long)
@@ -33,7 +33,7 @@ GET           /api/Order                     controllers.OrderController.getAllO
 GET           /api/Order/:id                 controllers.OrderController.getOrder(id: String)
 POST          /api/Order                     controllers.OrderController.postOrder()
 PUT           /api/Order                     controllers.OrderController.putOrder()
-DELETE        /Api/Order/:id                 controllers.OrderController.deleteOrder(id:String)
+DELETE        /api/Order/:id                 controllers.OrderController.deleteOrder(id:String)
 
 GET           /api/Product                   controllers.ProductController.getAllProduct()
 GET           /api/Product/:id               controllers.ProductController.getProduct(id: Long)
