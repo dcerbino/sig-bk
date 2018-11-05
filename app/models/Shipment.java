@@ -5,7 +5,7 @@ import play.data.format.Formats;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,6 +30,6 @@ public class Shipment extends BaseModel {
     @OneToOne(cascade = CascadeType.ALL)
     public Order order;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     public List<Fine> fines = new ArrayList<>();
 }
