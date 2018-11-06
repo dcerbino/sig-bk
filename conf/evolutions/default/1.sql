@@ -68,7 +68,6 @@ create table shipment (
   enter_time                    datetime(6),
   leave_time                    datetime(6),
   order_id                      bigint,
-  constraint uq_shipment_container_id unique (container_id),
   constraint uq_shipment_truck_id unique (truck_id),
   constraint uq_shipment_order_id unique (order_id),
   constraint pk_shipment primary key (id)
@@ -123,6 +122,7 @@ alter table product add constraint fk_product_product_type_id foreign key (produ
 create index ix_product_product_type_id on product (product_type_id);
 
 alter table shipment add constraint fk_shipment_container_id foreign key (container_id) references container (id) on delete restrict on update restrict;
+create index ix_shipment_container_id on shipment (container_id);
 
 alter table shipment add constraint fk_shipment_truck_id foreign key (truck_id) references truck (id) on delete restrict on update restrict;
 
@@ -161,6 +161,7 @@ alter table product drop foreign key fk_product_product_type_id;
 drop index ix_product_product_type_id on product;
 
 alter table shipment drop foreign key fk_shipment_container_id;
+drop index ix_shipment_container_id on shipment;
 
 alter table shipment drop foreign key fk_shipment_truck_id;
 
