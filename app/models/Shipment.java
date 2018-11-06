@@ -3,10 +3,7 @@ package models;
 import io.ebean.Finder;
 import play.data.format.Formats;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +12,7 @@ import java.util.List;
 public class Shipment extends BaseModel {
     public static final Finder<Long, Shipment> find = new Finder<>(Shipment.class);
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     public Container container;
 
     @OneToOne(cascade = CascadeType.ALL)
