@@ -21,7 +21,7 @@ public class Order extends BaseModel {
     @Formats.DateTime(pattern = "yyyy-MM-dd")
     public Date date = new Date();
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     public Company company;
 
 //    @NotNull
