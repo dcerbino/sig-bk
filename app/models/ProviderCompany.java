@@ -4,23 +4,25 @@ import io.ebean.Finder;
 import io.ebean.annotation.JsonIgnore;
 import io.ebean.annotation.NotNull;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-public class Product extends BaseModel {
-    public static final Finder<Long, Product> find = new Finder<>(Product.class);
 
+@Entity
+public class ProviderCompany extends BaseModel {
+    public static final Finder<Long, ProviderCompany> find = new Finder<>(ProviderCompany.class);
 
     @NotNull
     public String name = "";
 
+    @NotNull
+    public String address = "";
+
     @OneToMany
     @JsonIgnore
-    List<PurchaseOrder> purchaseOrders = new ArrayList<>();
+    public List<PurchaseOrder> purchaseOrders= new ArrayList<>();
+
 
 }

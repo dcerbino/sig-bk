@@ -1,19 +1,19 @@
 package controllers;
 
-import models.Order;
+import models.PurchaseOrder;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import utils.JsonMessage;
 
-public class OrderController extends Controller {
+public class PurchaseOrderController extends Controller {
     public Result getAllOrder() {
-        return ok(Json.toJson(Order.find.all()));
+        return ok(Json.toJson(PurchaseOrder.find.all()));
     }
 
     public Result getOrder(Long id) {
         try {
-            return ok().sendJson(Json.toJson(Order.find.byId(id)));
+            return ok().sendJson(Json.toJson(PurchaseOrder.find.byId(id)));
         } catch (Exception e) {
 //            e.printStackTrace();
             return noContent();
@@ -22,7 +22,7 @@ public class OrderController extends Controller {
 
     public Result putOrder() {
         try {
-            Order order = Json.fromJson(request().body().asJson(), Order.class);
+            PurchaseOrder order = Json.fromJson(request().body().asJson(), PurchaseOrder.class);
             if (order.notSaved(order.id)) {
                 order.save();
                 return created()
@@ -46,9 +46,9 @@ public class OrderController extends Controller {
 
     public Result postOrder() {
         try {
-            Order order = Json.fromJson(request().body().asJson(), Order.class);
+            PurchaseOrder order = Json.fromJson(request().body().asJson(), PurchaseOrder.class);
             order.update();
-            return ok().sendJson(JsonMessage.make("Order updated"));
+            return ok().sendJson(JsonMessage.make("PurchaseOrder updated"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,8 +57,8 @@ public class OrderController extends Controller {
 
     public Result deleteOrder(Long id) {
         try {
-            Order.find.deleteById(id);
-            return ok().sendJson(JsonMessage.make("Order deleted"));
+            PurchaseOrder.find.deleteById(id);
+            return ok().sendJson(JsonMessage.make("PurchaseOrder deleted"));
         } catch (Exception e) {
             e.printStackTrace();
         }

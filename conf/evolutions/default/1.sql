@@ -3,25 +3,6 @@
 
 # --- !Ups
 
-create table bill_of_loading (
-  id                            bigint auto_increment not null,
-  container_id                  varchar(255),
-  date                          datetime(6),
-  company_id                    bigint,
-  order_id                      bigint,
-  constraint uq_bill_of_loading_container_id unique (container_id),
-  constraint uq_bill_of_loading_company_id unique (company_id),
-  constraint uq_bill_of_loading_order_id unique (order_id),
-  constraint pk_bill_of_loading primary key (id)
-);
-
-create table company (
-  id                            bigint auto_increment not null,
-  name                          varchar(255) not null,
-  address                       varchar(255) not null,
-  constraint pk_company primary key (id)
-);
-
 create table container (
   id                            varchar(255) not null,
   product_id                    bigint,
@@ -29,175 +10,79 @@ create table container (
   constraint pk_container primary key (id)
 );
 
-create table fine (
+create table delivery (
   id                            bigint auto_increment not null,
-  reason                        varchar(255) not null,
-  amount                        double not null,
-  currency                      varchar(255) not null,
-  constraint pk_fine primary key (id)
-);
-
-create table torder (
-  id                            bigint auto_increment not null,
-  product_id                    bigint,
-  date                          datetime(6),
-  company_id                    bigint,
-  constraint uq_torder_company_id unique (company_id),
-  constraint pk_torder primary key (id)
+  container                     varchar(255) not null,
+  license_plate                 varchar(255) not null,
+  driver_full_name              varchar(255) not null,
+  arrival_to_plant              datetime(6) not null,
+  container_discharge_start     datetime(6) not null,
+  container_discharge_end       datetime(6) not null,
+  block_discharge_start         datetime(6) not null,
+  block_discharge_end           datetime(6) not null,
+  damage_fine                   double not null,
+  return_date                   datetime(6) not null,
+  late_return_fine              double not null,
+  purchase_order_id             bigint,
+  constraint pk_delivery primary key (id)
 );
 
 create table product (
   id                            bigint auto_increment not null,
   name                          varchar(255) not null,
-  product_type_id               bigint,
   constraint pk_product primary key (id)
 );
 
-create table product_type (
+create table provider_company (
   id                            bigint auto_increment not null,
-  material                      varchar(255) not null,
-  color                         varchar(255) not null,
   name                          varchar(255) not null,
-  constraint pk_product_type primary key (id)
+  address                       varchar(255) not null,
+  constraint pk_provider_company primary key (id)
 );
 
-create table shipment (
+create table purchase_order (
   id                            bigint auto_increment not null,
-  container_id                  varchar(255),
-  truck_id                      bigint,
-  enter_time                    datetime(6),
-  leave_time                    datetime(6),
-  order_id                      bigint,
-  constraint uq_shipment_truck_id unique (truck_id),
-  constraint uq_shipment_order_id unique (order_id),
-  constraint pk_shipment primary key (id)
+  product_id                    bigint,
+  company_id                    bigint,
+  date                          datetime(6),
+  quantity_in_tons              float not null,
+  constraint pk_purchase_order primary key (id)
 );
-
-create table shipment_fine (
-  shipment_id                   bigint not null,
-  fine_id                       bigint not null,
-  constraint pk_shipment_fine primary key (shipment_id,fine_id)
-);
-
-create table shipment_report (
-  id                            bigint auto_increment not null,
-  introduced                    datetime(6),
-  terminal                      varchar(255),
-  port                          varchar(255),
-  navy_company_id               bigint,
-  provider_id                   bigint,
-  loading_point                 varchar(255),
-  docking_point                 varchar(255),
-  boat                          varchar(255),
-  delivery_place                varchar(255),
-  constraint uq_shipment_report_navy_company_id unique (navy_company_id),
-  constraint uq_shipment_report_provider_id unique (provider_id),
-  constraint pk_shipment_report primary key (id)
-);
-
-create table truck (
-  id                            bigint auto_increment not null,
-  container_id                  varchar(255),
-  driver                        varchar(255) not null,
-  license_plate                 varchar(255) not null,
-  constraint uq_truck_container_id unique (container_id),
-  constraint pk_truck primary key (id)
-);
-
-alter table bill_of_loading add constraint fk_bill_of_loading_container_id foreign key (container_id) references container (id) on delete restrict on update restrict;
-
-alter table bill_of_loading add constraint fk_bill_of_loading_company_id foreign key (company_id) references company (id) on delete restrict on update restrict;
-
-alter table bill_of_loading add constraint fk_bill_of_loading_order_id foreign key (order_id) references torder (id) on delete restrict on update restrict;
 
 alter table container add constraint fk_container_product_id foreign key (product_id) references product (id) on delete restrict on update restrict;
 create index ix_container_product_id on container (product_id);
 
-alter table torder add constraint fk_torder_product_id foreign key (product_id) references product (id) on delete restrict on update restrict;
-create index ix_torder_product_id on torder (product_id);
+alter table delivery add constraint fk_delivery_purchase_order_id foreign key (purchase_order_id) references purchase_order (id) on delete restrict on update restrict;
+create index ix_delivery_purchase_order_id on delivery (purchase_order_id);
 
-alter table torder add constraint fk_torder_company_id foreign key (company_id) references company (id) on delete restrict on update restrict;
+alter table purchase_order add constraint fk_purchase_order_product_id foreign key (product_id) references product (id) on delete restrict on update restrict;
+create index ix_purchase_order_product_id on purchase_order (product_id);
 
-alter table product add constraint fk_product_product_type_id foreign key (product_type_id) references product_type (id) on delete restrict on update restrict;
-create index ix_product_product_type_id on product (product_type_id);
-
-alter table shipment add constraint fk_shipment_container_id foreign key (container_id) references container (id) on delete restrict on update restrict;
-create index ix_shipment_container_id on shipment (container_id);
-
-alter table shipment add constraint fk_shipment_truck_id foreign key (truck_id) references truck (id) on delete restrict on update restrict;
-
-alter table shipment add constraint fk_shipment_order_id foreign key (order_id) references torder (id) on delete restrict on update restrict;
-
-alter table shipment_fine add constraint fk_shipment_fine_shipment foreign key (shipment_id) references shipment (id) on delete restrict on update restrict;
-create index ix_shipment_fine_shipment on shipment_fine (shipment_id);
-
-alter table shipment_fine add constraint fk_shipment_fine_fine foreign key (fine_id) references fine (id) on delete restrict on update restrict;
-create index ix_shipment_fine_fine on shipment_fine (fine_id);
-
-alter table shipment_report add constraint fk_shipment_report_navy_company_id foreign key (navy_company_id) references company (id) on delete restrict on update restrict;
-
-alter table shipment_report add constraint fk_shipment_report_provider_id foreign key (provider_id) references company (id) on delete restrict on update restrict;
-
-alter table truck add constraint fk_truck_container_id foreign key (container_id) references container (id) on delete restrict on update restrict;
+alter table purchase_order add constraint fk_purchase_order_company_id foreign key (company_id) references provider_company (id) on delete restrict on update restrict;
+create index ix_purchase_order_company_id on purchase_order (company_id);
 
 
 # --- !Downs
 
-alter table bill_of_loading drop foreign key fk_bill_of_loading_container_id;
-
-alter table bill_of_loading drop foreign key fk_bill_of_loading_company_id;
-
-alter table bill_of_loading drop foreign key fk_bill_of_loading_order_id;
-
 alter table container drop foreign key fk_container_product_id;
 drop index ix_container_product_id on container;
 
-alter table torder drop foreign key fk_torder_product_id;
-drop index ix_torder_product_id on torder;
+alter table delivery drop foreign key fk_delivery_purchase_order_id;
+drop index ix_delivery_purchase_order_id on delivery;
 
-alter table torder drop foreign key fk_torder_company_id;
+alter table purchase_order drop foreign key fk_purchase_order_product_id;
+drop index ix_purchase_order_product_id on purchase_order;
 
-alter table product drop foreign key fk_product_product_type_id;
-drop index ix_product_product_type_id on product;
-
-alter table shipment drop foreign key fk_shipment_container_id;
-drop index ix_shipment_container_id on shipment;
-
-alter table shipment drop foreign key fk_shipment_truck_id;
-
-alter table shipment drop foreign key fk_shipment_order_id;
-
-alter table shipment_fine drop foreign key fk_shipment_fine_shipment;
-drop index ix_shipment_fine_shipment on shipment_fine;
-
-alter table shipment_fine drop foreign key fk_shipment_fine_fine;
-drop index ix_shipment_fine_fine on shipment_fine;
-
-alter table shipment_report drop foreign key fk_shipment_report_navy_company_id;
-
-alter table shipment_report drop foreign key fk_shipment_report_provider_id;
-
-alter table truck drop foreign key fk_truck_container_id;
-
-drop table if exists bill_of_loading;
-
-drop table if exists company;
+alter table purchase_order drop foreign key fk_purchase_order_company_id;
+drop index ix_purchase_order_company_id on purchase_order;
 
 drop table if exists container;
 
-drop table if exists fine;
-
-drop table if exists torder;
+drop table if exists delivery;
 
 drop table if exists product;
 
-drop table if exists product_type;
+drop table if exists provider_company;
 
-drop table if exists shipment;
-
-drop table if exists shipment_fine;
-
-drop table if exists shipment_report;
-
-drop table if exists truck;
+drop table if exists purchase_order;
 

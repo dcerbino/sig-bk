@@ -1,19 +1,19 @@
 package controllers;
 
-import models.Company;
+import models.ProviderCompany;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import utils.JsonMessage;
 
-public class CompanyController extends Controller {
+public class ProviderCompanyController extends Controller {
     public Result getAllCompany() {
-        return ok().sendJson(Json.toJson(Company.find.all()));
+        return ok().sendJson(Json.toJson(ProviderCompany.find.all()));
     }
 
     public Result getCompany(long id) {
         try {
-            return ok().sendJson(Json.toJson(Company.find.byId(id)));
+            return ok().sendJson(Json.toJson(ProviderCompany.find.byId(id)));
         } catch (Exception e) {
 //            e.printStackTrace();
             return noContent();
@@ -22,7 +22,7 @@ public class CompanyController extends Controller {
 
     public Result putCompany() {
         try {
-            Company company = Json.fromJson(request().body().asJson(), Company.class);
+            ProviderCompany company = Json.fromJson(request().body().asJson(), ProviderCompany.class);
             if (company.notSaved(company.id)) {
                 company.save();
                 return created()
@@ -46,9 +46,9 @@ public class CompanyController extends Controller {
 
     public Result postCompany() {
         try {
-            Company company = Json.fromJson(request().body().asJson(), Company.class);
+            ProviderCompany company = Json.fromJson(request().body().asJson(), ProviderCompany.class);
             company.update();
-            return ok().sendJson(JsonMessage.make("Company updated"));
+            return ok().sendJson(JsonMessage.make("ProviderCompany updated"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,8 +57,8 @@ public class CompanyController extends Controller {
 
     public Result deleteCompany(long id) {
         try {
-            Company.find.deleteById(id);
-            return ok().sendJson(JsonMessage.make("Company deleted"));
+            ProviderCompany.find.deleteById(id);
+            return ok().sendJson(JsonMessage.make("ProviderCompany deleted"));
         } catch (Exception e) {
             e.printStackTrace();
         }

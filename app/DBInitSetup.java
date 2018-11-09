@@ -1,12 +1,7 @@
-import models.Company;
-import models.Fine;
-import models.Product;
-import models.ProductType;
-
 public class DBInitSetup {
     public DBInitSetup() {
-//        if (Company.find.all().isEmpty()){
-//            Company company = new Company();
+//        if (ProviderCompany.find.all().isEmpty()){
+//            ProviderCompany company = new ProviderCompany();
 //            company.name="test";
 //            company.address="Calle alsina 123";
 //            company.save();
