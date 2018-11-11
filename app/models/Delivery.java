@@ -37,7 +37,7 @@ public class Delivery extends BaseModel {
     @Formats.DateTime(pattern = "hh:mm")
     public Date blockDischargeEnd;
 
-    public double damageFine=0;
+    public double damageFine;
 
     @Formats.DateTime(pattern = "hh:mm")
     public Date returnDate;
