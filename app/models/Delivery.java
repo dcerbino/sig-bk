@@ -5,6 +5,7 @@ import io.ebean.annotation.JsonIgnore;
 import io.ebean.annotation.NotNull;
 import play.data.format.Formats;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.Date;
 import java.util.List;
@@ -44,8 +45,8 @@ public class Delivery extends BaseModel {
 
     public double lateReturnFine = 0;
 
-    @OneToMany
+    @ManyToOne
     @JsonIgnore
-    public List<PurchaseOrder> purchaseOrder;
+    public PurchaseOrder purchaseOrder;
 
 }

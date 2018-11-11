@@ -1,10 +1,17 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.ebean.Finder;
+import io.ebean.annotation.NotNull;
 import play.data.format.Formats;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class PurchaseOrder extends BaseModel {
@@ -13,15 +20,17 @@ public class PurchaseOrder extends BaseModel {
     @ManyToOne
     public Product product;
 
-    @ManyToOne
-    public ProviderCompany provider;
+    @ManyToOne(cascade = CascadeType.ALL)
+    public ProviderCompany company;
 
     @Formats.DateTime(pattern = "yyyy-MM-dd")
     public Date date = new Date();
 
-    @ManyToOne
-    public Delivery delivery;
+    @OneToMany
+    public List<Delivery> deliveries = new ArrayList<>();
 
+    @NotNull
     public float quantityInTons;
+
 
 }
