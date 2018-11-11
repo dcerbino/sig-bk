@@ -1,12 +1,13 @@
 package models;
 
 import io.ebean.Finder;
+import io.ebean.annotation.JsonIgnore;
 import io.ebean.annotation.NotNull;
 import play.data.format.Formats;
-
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Delivery extends BaseModel {
@@ -21,38 +22,30 @@ public class Delivery extends BaseModel {
     @NotNull
     public String driverFullName="";
 
-    @NotNull
     @Formats.DateTime(pattern = "yyyy-MM-dd")
-    public Date arrivalToPlant=new Date();
+    public Date arrivalToPlant;
 
-    @NotNull
     @Formats.DateTime(pattern = "hh:mm")
-    public Date containerDischargeStart = new Date();
+    public Date containerDischargeStart;
 
-    @NotNull
     @Formats.DateTime(pattern = "hh:mm")
-    public Date containerDischargeEnd = new Date();
+    public Date containerDischargeEnd;
 
-    @NotNull
     @Formats.DateTime(pattern = "hh:mm")
-    public Date blockDischargeStart = new Date();
+    public Date blockDischargeStart;
 
-    @NotNull
     @Formats.DateTime(pattern = "hh:mm")
-    public Date blockDischargeEnd = new Date();
+    public Date blockDischargeEnd;
 
-    @NotNull
     public double damageFine=0;
 
-    @NotNull
     @Formats.DateTime(pattern = "hh:mm")
-    public Date returnDate = new Date();
+    public Date returnDate;
 
-    @NotNull
     public double lateReturnFine = 0;
 
-    @NotNull
-    @ManyToOne
-    public PurchaseOrder purchaseOrder;
+    @OneToMany
+    @JsonIgnore
+    public List<PurchaseOrder> purchaseOrder;
 
 }
