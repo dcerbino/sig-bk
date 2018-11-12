@@ -12,11 +12,11 @@ PUT           /api/Company                   controllers.ProviderCompanyControll
 DELETE        /api/Company/:id               controllers.ProviderCompanyController.deleteCompany(id:Long)
 
 
-GET           /api/PurchaseOrder                     controllers.PurchaseOrderController.getAllOrder()
-GET           /api/PurchaseOrder/:id                 controllers.PurchaseOrderController.getOrder(id: Long)
-POST          /api/PurchaseOrder                     controllers.PurchaseOrderController.postOrder()
-PUT           /api/PurchaseOrder                     controllers.PurchaseOrderController.putOrder()
-DELETE        /api/PurchaseOrder/:id                 controllers.PurchaseOrderController.deleteOrder(id:Long)
+GET           /api/Order                     controllers.PurchaseOrderController.getAllOrder()
+GET           /api/Order/:id                 controllers.PurchaseOrderController.getOrder(id: Long)
+POST          /api/Order                     controllers.PurchaseOrderController.postOrder()
+PUT           /api/Order                     controllers.PurchaseOrderController.putOrder()
+DELETE        /api/Order/:id                 controllers.PurchaseOrderController.deleteOrder(id:Long)
 
 GET           /api/Product                   controllers.ProductController.getAllProduct()
 GET           /api/Product/:id               controllers.ProductController.getProduct(id: Long)

@@ -5,10 +5,7 @@ import io.ebean.Finder;
 import io.ebean.annotation.NotNull;
 import play.data.format.Formats;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,8 +23,8 @@ public class PurchaseOrder extends BaseModel {
     @Formats.DateTime(pattern = "yyyy-MM-dd")
     public Date date = new Date();
 
-    @OneToMany
-    public List<Delivery> deliveries = new ArrayList<>();
+    @OneToOne
+    public Delivery deliverie;
 
     @NotNull
     public float quantityInTons;

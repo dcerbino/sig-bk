@@ -17,6 +17,7 @@ create table delivery (
   return_date                   datetime(6),
   late_return_fine              double not null,
   purchase_order_id             bigint,
+  constraint uq_delivery_purchase_order_id unique (purchase_order_id),
   constraint pk_delivery primary key (id)
 );
 
@@ -37,12 +38,13 @@ create table purchase_order (
   product_id                    bigint,
   company_id                    bigint,
   date                          datetime(6),
+  deliverie_id                  bigint,
   quantity_in_tons              float not null,
+  constraint uq_purchase_order_deliverie_id unique (deliverie_id),
   constraint pk_purchase_order primary key (id)
 );
 
 alter table delivery add constraint fk_delivery_purchase_order_id foreign key (purchase_order_id) references purchase_order (id) on delete restrict on update restrict;
-create index ix_delivery_purchase_order_id on delivery (purchase_order_id);
 
 alter table purchase_order add constraint fk_purchase_order_product_id foreign key (product_id) references product (id) on delete restrict on update restrict;
 create index ix_purchase_order_product_id on purchase_order (product_id);
@@ -50,17 +52,20 @@ create index ix_purchase_order_product_id on purchase_order (product_id);
 alter table purchase_order add constraint fk_purchase_order_company_id foreign key (company_id) references provider_company (id) on delete restrict on update restrict;
 create index ix_purchase_order_company_id on purchase_order (company_id);
 
+alter table purchase_order add constraint fk_purchase_order_deliverie_id foreign key (deliverie_id) references delivery (id) on delete restrict on update restrict;
+
 
 # --- !Downs
 
 alter table delivery drop foreign key fk_delivery_purchase_order_id;
-drop index ix_delivery_purchase_order_id on delivery;
 
 alter table purchase_order drop foreign key fk_purchase_order_product_id;
 drop index ix_purchase_order_product_id on purchase_order;
 
 alter table purchase_order drop foreign key fk_purchase_order_company_id;
 drop index ix_purchase_order_company_id on purchase_order;
+
+alter table purchase_order drop foreign key fk_purchase_order_deliverie_id;
 
 drop table if exists delivery;
 

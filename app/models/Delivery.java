@@ -7,6 +7,7 @@ import play.data.format.Formats;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import java.util.Date;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class Delivery extends BaseModel {
 
     public double lateReturnFine = 0;
 
-    @ManyToOne
+    @OneToOne
     @JsonIgnore
     public PurchaseOrder purchaseOrder;
 
