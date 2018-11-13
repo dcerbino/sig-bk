@@ -13,9 +13,9 @@ create table delivery (
   container_discharge_end       datetime(6),
   block_discharge_start         datetime(6),
   block_discharge_end           datetime(6),
-  damage_fine                   double not null,
+  damage_fine                   double,
   return_date                   datetime(6),
-  late_return_fine              double not null,
+  late_return_fine              double,
   purchase_order_id             bigint,
   constraint uq_delivery_purchase_order_id unique (purchase_order_id),
   constraint pk_delivery primary key (id)
@@ -39,7 +39,7 @@ create table purchase_order (
   provider_id                   bigint,
   date                          datetime(6),
   delivery_id                   bigint,
-  quantity_in_tons              float not null,
+  quantity_in_tons              float,
   constraint uq_purchase_order_delivery_id unique (delivery_id),
   constraint pk_purchase_order primary key (id)
 );

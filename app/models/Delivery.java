@@ -34,12 +34,12 @@ public class Delivery extends BaseModel {
     @Formats.DateTime(pattern = "yyyy-MM-ddTHH:mm")
     public Date blockDischargeEnd;
 
-    public double damageFine;
+    public Double damageFine;
 
     @Formats.DateTime(pattern = "yyyy-MM-ddTHH:mm")
     public Date returnDate;
 
-    public double lateReturnFine;
+    public Double lateReturnFine;
 
     @OneToOne
     @JsonIgnore

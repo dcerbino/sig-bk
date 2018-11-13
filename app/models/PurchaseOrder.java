@@ -26,6 +26,6 @@ public class PurchaseOrder extends BaseModel {
     @OneToOne
     public Delivery delivery;
 
-    public float quantityInTons;
+    public Float quantityInTons;
 
 }
