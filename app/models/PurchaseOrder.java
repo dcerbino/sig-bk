@@ -18,16 +18,14 @@ public class PurchaseOrder extends BaseModel {
     public Product product;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    public ProviderCompany company;
+    public ProviderCompany provider;
 
     @Formats.DateTime(pattern = "yyyy-MM-dd")
     public Date date = new Date();
 
     @OneToOne
-    public Delivery deliverie;
+    public Delivery delivery;
 
-    @NotNull
     public float quantityInTons;
-
 
 }

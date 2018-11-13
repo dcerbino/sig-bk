@@ -4,10 +4,8 @@ import io.ebean.Finder;
 import io.ebean.annotation.JsonIgnore;
 import io.ebean.annotation.NotNull;
 import play.data.format.Formats;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
@@ -15,36 +13,33 @@ import java.util.List;
 public class Delivery extends BaseModel {
     public static final Finder<Long, Delivery> find = new Finder<>(Delivery.class);
 
-    @NotNull
-    public String container="";
+    public String container;
 
-    @NotNull
-    public String licensePlate="";
+    public String licensePlate;
 
-    @NotNull
-    public String driverFullName="";
+    public String driverFullName;
 
-    @Formats.DateTime(pattern = "yyyy-MM-dd")
+    @Formats.DateTime(pattern = "yyyy-MM-ddTHH:mm")
     public Date arrivalToPlant;
 
-    @Formats.DateTime(pattern = "hh:mm")
+    @Formats.DateTime(pattern = "yyyy-MM-ddTHH:mm")
     public Date containerDischargeStart;
 
-    @Formats.DateTime(pattern = "hh:mm")
+    @Formats.DateTime(pattern = "yyyy-MM-ddTHH:mm")
     public Date containerDischargeEnd;
 
-    @Formats.DateTime(pattern = "hh:mm")
+    @Formats.DateTime(pattern = "yyyy-MM-ddTHH:mm")
     public Date blockDischargeStart;
 
-    @Formats.DateTime(pattern = "hh:mm")
+    @Formats.DateTime(pattern = "yyyy-MM-ddTHH:mm")
     public Date blockDischargeEnd;
 
     public double damageFine;
 
-    @Formats.DateTime(pattern = "hh:mm")
+    @Formats.DateTime(pattern = "yyyy-MM-ddTHH:mm")
     public Date returnDate;
 
-    public double lateReturnFine = 0;
+    public double lateReturnFine;
 
     @OneToOne
     @JsonIgnore

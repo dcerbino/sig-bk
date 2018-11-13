@@ -21,8 +21,8 @@ public class DBInitSetup {
 
             PurchaseOrder purchaseOrder = new PurchaseOrder();
             purchaseOrder.product = product;
-            purchaseOrder.deliverie = delivery;
-            purchaseOrder.company= providerCompany;
+            purchaseOrder.delivery = delivery;
+            purchaseOrder.provider= providerCompany;
 
             purchaseOrder.save();
         }

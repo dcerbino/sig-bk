@@ -5,9 +5,9 @@
 
 create table delivery (
   id                            bigint auto_increment not null,
-  container                     varchar(255) not null,
-  license_plate                 varchar(255) not null,
-  driver_full_name              varchar(255) not null,
+  container                     varchar(255),
+  license_plate                 varchar(255),
+  driver_full_name              varchar(255),
   arrival_to_plant              datetime(6),
   container_discharge_start     datetime(6),
   container_discharge_end       datetime(6),
@@ -36,11 +36,11 @@ create table provider_company (
 create table purchase_order (
   id                            bigint auto_increment not null,
   product_id                    bigint,
-  company_id                    bigint,
+  provider_id                   bigint,
   date                          datetime(6),
-  deliverie_id                  bigint,
+  delivery_id                   bigint,
   quantity_in_tons              float not null,
-  constraint uq_purchase_order_deliverie_id unique (deliverie_id),
+  constraint uq_purchase_order_delivery_id unique (delivery_id),
   constraint pk_purchase_order primary key (id)
 );
 
@@ -49,10 +49,10 @@ alter table delivery add constraint fk_delivery_purchase_order_id foreign key (p
 alter table purchase_order add constraint fk_purchase_order_product_id foreign key (product_id) references product (id) on delete restrict on update restrict;
 create index ix_purchase_order_product_id on purchase_order (product_id);
 
-alter table purchase_order add constraint fk_purchase_order_company_id foreign key (company_id) references provider_company (id) on delete restrict on update restrict;
-create index ix_purchase_order_company_id on purchase_order (company_id);
+alter table purchase_order add constraint fk_purchase_order_provider_id foreign key (provider_id) references provider_company (id) on delete restrict on update restrict;
+create index ix_purchase_order_provider_id on purchase_order (provider_id);
 
-alter table purchase_order add constraint fk_purchase_order_deliverie_id foreign key (deliverie_id) references delivery (id) on delete restrict on update restrict;
+alter table purchase_order add constraint fk_purchase_order_delivery_id foreign key (delivery_id) references delivery (id) on delete restrict on update restrict;
 
 
 # --- !Downs
@@ -62,10 +62,10 @@ alter table delivery drop foreign key fk_delivery_purchase_order_id;
 alter table purchase_order drop foreign key fk_purchase_order_product_id;
 drop index ix_purchase_order_product_id on purchase_order;
 
-alter table purchase_order drop foreign key fk_purchase_order_company_id;
-drop index ix_purchase_order_company_id on purchase_order;
+alter table purchase_order drop foreign key fk_purchase_order_provider_id;
+drop index ix_purchase_order_provider_id on purchase_order;
 
-alter table purchase_order drop foreign key fk_purchase_order_deliverie_id;
+alter table purchase_order drop foreign key fk_purchase_order_delivery_id;
 
 drop table if exists delivery;
 
